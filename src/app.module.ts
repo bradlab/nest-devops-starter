@@ -63,7 +63,7 @@ export class IAppModule {}
       password: process.env.DB_PASSWORD,
       logger: 'advanced-console',
       logging: ['error'],
-      synchronize: process.env.DB_ENV === 'prod' ? false : true,
+      synchronize: process.env.NODE_ENV === 'prod' ? false : true,
       autoLoadEntities: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
