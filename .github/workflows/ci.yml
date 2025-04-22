@@ -13,7 +13,7 @@ jobs:
     # Lancement d’un conteneur PostgreSQL pour que les tests puissent accéder à une DB
     services:
       postgres:
-        image: postgres:18
+        image: postgres:17
         env:
           POSTGRES_USER: ${{ secrets.DB_USERNAME }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
