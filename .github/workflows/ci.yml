@@ -48,11 +48,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build the app
-        run: npm run build
-
       # - name: Run TypeORM migrations
       #   run: npm run migration:run
 
       - name: Run tests
         run: npm run test
+
+      - name: Build the app
+        run: npm run build
+
+      # Suite déploiement
+

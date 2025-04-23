@@ -9,9 +9,11 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomValidationPipe } from './_shared/pipe/custom-validator.pipe';
+import { AuthModule } from './auth';
 
 
 @Module({
+  imports: [AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

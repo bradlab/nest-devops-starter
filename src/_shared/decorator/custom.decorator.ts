@@ -5,7 +5,7 @@ import {
   createParamDecorator,
 } from '@nestjs/common';
 import { DataHelper } from '../helper/data.helper';
-import { User } from 'database/model/user.model';
+import { User } from 'database/model/user.entity';
 
 export const Public = () => SetMetadata('isPublic', true);
 

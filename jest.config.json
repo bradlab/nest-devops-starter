@@ -1,0 +1,17 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "./src",
+  "testRegex": ".*\\.spec\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "collectCoverageFrom": ["**/*.(t|j)s"],
+  "coverageDirectory": "../coverage",
+  "testEnvironment": "node",
+  "moduleNameMapper": {
+    "^test/(.*)$": "<rootDir>/../test/$1",
+    "^_shared/(.*)$": "<rootDir>/_shared/$1",
+    "^database/(.*)$": "<rootDir>/_shared/database/$1",
+    "^config/(.*)$": "<rootDir>/_shared/config/$1"
+  }
+}

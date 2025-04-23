@@ -1,9 +1,17 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleDirectories": ["node_modules", "../src"],
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "modulePaths": ["../src"],
+  "moduleNameMapper": {
+    "^test/(.*)$": "<rootDir>/../test/$1",
+    "^_shared/(.*)$": "<rootDir>/../src/_shared/$1",
+    "^database/(.*)$": "<rootDir>/../src/_shared/database/$1",
+    "^config/(.*)$": "<rootDir>/../src/_shared/config/$1"
   }
 }

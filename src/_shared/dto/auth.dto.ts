@@ -6,8 +6,9 @@ import {
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
+import { IForgotPasswordDTO, IResetPasswordDTO, ISigninAccoutDTO, IUpdatePwdDTO } from '../interface/auth.input.dto';
 
-export class UpdatePwdDTO {
+export class UpdatePwdDTO implements IUpdatePwdDTO {
   @ApiProperty({
     type: String,
     name: 'oldPassword',
@@ -20,7 +21,7 @@ export class UpdatePwdDTO {
   @IsString()
   newPassword: string;
 }
-export class SigninAccoutDTO {
+export class SigninAccoutDTO implements ISigninAccoutDTO {
   @ApiProperty({
     type: String,
     name: 'email',
@@ -46,7 +47,7 @@ export class SigninAccoutDTO {
   password: string;
 }
 
-export class ForgotPasswordDTO {
+export class ForgotPasswordDTO implements IForgotPasswordDTO {
   @ApiProperty({
     type: String,
     name: 'email',
@@ -68,7 +69,7 @@ export class ForgotPasswordDTO {
   phone?: string;
 }
 
-export class ResetPasswordDTO extends SigninAccoutDTO {
+export class ResetPasswordDTO extends SigninAccoutDTO implements IResetPasswordDTO{
   @ApiProperty({
     type: String,
     name: 'otpCode',
