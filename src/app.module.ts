@@ -9,9 +9,11 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomValidationPipe } from './_shared/pipe/custom-validator.pipe';
+import { AuthModule } from './auth';
 
 
 @Module({
+  imports: [AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -63,7 +65,7 @@ export class IAppModule {}
       password: process.env.DB_PASSWORD,
       logger: 'advanced-console',
       logging: ['error'],
-      synchronize: process.env.DB_ENV === 'prod' ? false : true,
+      synchronize: process.env.NODE_ENV === 'prod' ? false : true,
       autoLoadEntities: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),

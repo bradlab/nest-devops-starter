@@ -11,7 +11,5 @@ export abstract class Person extends ITimestamp {
   phone: string;
   email?: string;
   address?: string;
-  country?: string;
-  avatar?: string;
   isActivated?: boolean;
 }

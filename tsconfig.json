@@ -21,8 +21,8 @@
       "config/*": ["src/_shared/config/*"],
       "database": ["./src/_shared/database"],
       "database/*": ["./src/_shared/database/*"],
-      "util": ["./src/_shared/util"],
-      "util/*": ["./src/_shared/util/*"]
+      "_shared": ["./src/_shared"],
+      "_shared/*": ["./src/_shared/*"]
     }
   }
 }
