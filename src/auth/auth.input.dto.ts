@@ -1,12 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BasicPersonnalInfoDTO } from '_shared/dto/param.dto';
-import {
-  IsString,
-  IsNotEmpty,
-} from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class RegisterStaffDTO extends BasicPersonnalInfoDTO {
-
   @ApiProperty({
     type: String,
     name: 'password',

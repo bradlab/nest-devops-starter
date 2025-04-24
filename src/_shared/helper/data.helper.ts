@@ -4,7 +4,7 @@ export abstract class DataHelper {
   } {
     if (!DataHelper.isEmpty(obj)) {
       return Object.fromEntries(
-        Object.entries(obj!).filter(
+        Object.entries(obj).filter(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ([key, value]) => value !== null && value !== undefined,
         ),
@@ -16,8 +16,8 @@ export abstract class DataHelper {
   }
 
   static getImageNames(links: string[] = [], apiLink: string) {
-    if(this.isNotEmptyArray(links) && apiLink) {
-      return links.map((link) => link.replace(`${apiLink}/files/`, '') );
+    if (this.isNotEmptyArray(links) && apiLink) {
+      return links.map((link) => link.replace(`${apiLink}/files/`, ''));
     }
     return [];
   }

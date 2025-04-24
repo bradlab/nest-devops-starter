@@ -1,5 +1,5 @@
-import { Person } from "database/abstract/model.abstract";
-import { SexEnum } from "../enum";
+import { Person } from 'database/abstract/model.abstract';
+import { SexEnum } from '../enum';
 
 export abstract class IBasicPersonnalInfoDTO
   implements Omit<Person, 'id' | 'createdAt' | 'updatedAt' | 'isActivated'>

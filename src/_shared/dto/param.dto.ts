@@ -64,7 +64,6 @@ export class DateFilterDTO {
   date?: Date;
 }
 
-
 export class BasicPersonnalInfoDTO implements Partial<Person> {
   @ApiProperty({
     type: String,

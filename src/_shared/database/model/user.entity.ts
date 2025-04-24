@@ -25,7 +25,7 @@ export class UserEntity extends PersonAbstract {
   }
 }
 
-export class User extends UserEntity {};
+export class User extends UserEntity {}
 
 export interface SignedUser extends Partial<User> {
   accessToken: string;

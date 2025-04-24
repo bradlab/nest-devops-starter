@@ -9,10 +9,7 @@ import { UserGuard } from '../_shared/guard/auth.guard';
 @Module({
   imports: [AuthModule],
   controllers: [UserController],
-  providers: [
-    UserGuard,
-    { provide: IUserService, useClass: UserService },
-  ],
+  providers: [UserGuard, { provide: IUserService, useClass: UserService }],
   exports: [IUserService, AuthModule],
 })
 export class UserModule {}

@@ -3,10 +3,7 @@ import { BasicPersonnalInfoDTO } from '_shared/dto/param.dto';
 import { SexEnum } from '_shared/enum';
 import { User } from 'database/model/user.entity';
 
-export class DocUserDTO
-  extends BasicPersonnalInfoDTO
-  implements Partial<User>
-{
+export class DocUserDTO extends BasicPersonnalInfoDTO implements Partial<User> {
   @ApiProperty({ type: String })
   id: string;
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { faker } from '@faker-js/faker';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TestingModule, Test } from '@nestjs/testing';
@@ -90,7 +89,6 @@ export abstract class TestGlobalConfig {
     return app;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static mockRepositoryResponse = async (x: any): Promise<any> => {
     return Promise.resolve({
       ...x,

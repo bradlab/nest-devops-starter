@@ -36,7 +36,10 @@ describe('AuthService', () => {
             verify: () => ({}),
           })),
         },
-        {provide: IDBRepository, useClass:jest.fn(() => TestGlobalConfig.mockDataService)}
+        {
+          provide: IDBRepository,
+          useClass: jest.fn(() => TestGlobalConfig.mockDataService),
+        },
       ],
     }).compile();
 
