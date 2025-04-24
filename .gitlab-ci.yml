@@ -38,7 +38,8 @@ services:
 install:
   stage: install
   script:
-    - npm ci
+    # - npm ci
+    - yarn install --frozen-lockfile
   artifacts:
     paths:
       - node_modules/
