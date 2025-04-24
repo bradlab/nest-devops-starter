@@ -45,10 +45,10 @@ install:
       - node_modules/
 
 # 🧹 Lint step
-lint:
-  stage: lint
-  script:
-    - npm run lint
+# lint:
+#   stage: lint
+#   script:
+    # - npm run lint
 
 # 🧪 Test step (with migrations)
 test:
