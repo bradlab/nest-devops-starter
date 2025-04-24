@@ -47,9 +47,9 @@ export class UserGuard implements CanActivate {
       const token = _extractTokenFromHeader(request);
       if (token) {
         const payload: IJwtPayload = await this._getPayload(token);
-        const client = await this._validate(payload);
-        request['user'] = client;
-        if (!client) {
+        const user = await this._validate(payload);
+        request['user'] = user;
+        if (!user) {
           throw new UnauthorizedException();
         }
         return true;
@@ -65,20 +65,19 @@ export class UserGuard implements CanActivate {
   }
 
   private async _getPayload(token: string): Promise<IJwtPayload> {
-    return await this.jwtService.verifyAsync(token, {
+    const {iat, exp, ...rest} = await this.jwtService.verifyAsync(token, {
       secret: process.env.JWT_SECRET,
       ignoreExpiration: process.env.NODE_ENV === 'prod' ? false : true,
     });
+    return rest;
   }
 
   private async _validate(payload: IJwtPayload): Promise<User | undefined> {
-    let user: User;
     if (!DataHelper.isEmpty(payload)) {
-      user = await this.authService.search({
+      return await this.authService.search({
         ...payload,
         isActivated: true,
       });
-      return user;
     }
   }
 }

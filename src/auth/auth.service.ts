@@ -1,7 +1,5 @@
 import {
-  ConflictException,
   Injectable,
-  InternalServerErrorException,
   Logger,
   NotFoundException,
   UnauthorizedException,
@@ -27,12 +25,14 @@ export class AuthService implements IAuthService {
   async signin(data: ISigninAccoutDTO): Promise<ISignedUserDTO> {
     try {
       const { email, phone } = data;
-      const user = await this._validateUser(data);
-      if (user) {
-        return {
-          accessToken: this.jwtService.sign({ email, phone, id: user.id }),
-          user,
-        };
+      if (email || phone) {
+        const user = await this._validateUser(data);
+        if (user) {
+          return {
+            accessToken: this.jwtService.sign({ email, phone, id: user.id }),
+            user,
+          };
+        }
       }
       throw new UnauthorizedException();
     } catch (error) {
@@ -129,13 +129,13 @@ export class AuthService implements IAuthService {
   async search(data: Partial<User>): Promise<User> {
     try {
       const { email, phone, isActivated, id} = data;
-      let options = {};
-      if (id) options['id'] = id;
-      if (isActivated) options['isActivated'] = isActivated;
+      let options = <Partial<User>>{};
+      if (id) options.id = id;
+      if (isActivated) options.isActivated = isActivated;
       if (phone) {
-        options['phone'] = phone;
+        options.phone = phone;
       } else if (email) {
-        options['email'] = email;
+        options.email = email;
       } else {
         options = { ...data };
       }

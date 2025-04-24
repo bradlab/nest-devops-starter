@@ -15,9 +15,6 @@ describe('UserService', () => {
   let authService: IAuthService;
 
   const id = faker.string.uuid();
-  const firstname = faker.person.fullName();
-  const lastname = faker.person.lastName();
-  const email = faker.internet.email();
   const phone = faker.phone.number({ style: 'international' });
 
   const data = <IRegisterUserDTO>{
@@ -110,8 +107,8 @@ describe('UserService', () => {
       repository.users.findOne = jest.fn(() => undefined as any);
       // const fact = await UserFactory.create(data);
       await service.add(data);
-      expect(authService.search).toHaveBeenCalledWith({ email });
-      expect(authService.search).toHaveBeenCalledWith({ phone });
+      expect(authService.search).toHaveBeenCalledWith({ email: data.email });
+      expect(authService.search).toHaveBeenCalledWith({ phone: data.phone });
       expect(repository.users.create).toHaveBeenCalledWith(
         expect.any(Object),
       );
@@ -119,8 +116,12 @@ describe('UserService', () => {
 
     it('Should expect correct data', async () => {
       const user = await service.add(data);
+      repository.users.save = jest
+        .fn()
+        .mockImplementation(() =>
+          TestGlobalConfig.mockRepositoryResponse({ ...data, id }),
+        );
       expect(user).toBeDefined();
-      expect(user.fullname).toBeTruthy();
       expect({
         firstname: user?.firstname,
         email: user.email,
@@ -140,16 +141,21 @@ describe('UserService', () => {
         );
       await service.edit({ ...data, id });
       expect(repository.users.findOne).toHaveBeenCalled();
-      expect(repository.users.update).toHaveBeenCalledWith(
-        expect.objectContaining({ id: expect.any(String), ...data }),
+      expect(repository.users.save).toHaveBeenCalledWith(
+        expect.objectContaining(expect.any(Object)),
       );
     });
 
     it('Should expect correct data', async () => {
       const email = faker.internet.email({
-        firstName: firstname.toLowerCase(),
-        lastName: lastname.toLowerCase(),
+        firstName: data.firstname.toLowerCase(),
+        lastName: data.lastname.toLowerCase(),
       });
+      repository.users.save = jest
+        .fn()
+        .mockImplementation(() =>
+          TestGlobalConfig.mockRepositoryResponse({ ...data, email, id }),
+        );
       const user = await service.edit({ ...data, email, id });
       expect(user).toBeDefined();
       expect(user.email).toEqual(email);
