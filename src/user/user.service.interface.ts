@@ -24,5 +24,4 @@ export abstract class IUserService {
   abstract setState(ids: string[]): Promise<boolean>;
 
   abstract remove(id: string): Promise<boolean>;
-
 }

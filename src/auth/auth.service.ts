@@ -9,7 +9,11 @@ import { IAuthService } from './auth.service.interface';
 import { IResetPasswordDTO } from './auth.service.interface';
 import { ISignedUserDTO } from './auth.service.interface';
 import { User } from 'database/model/user.entity';
-import { IForgotPasswordDTO, ISigninAccoutDTO, IUpdatePwdDTO } from '_shared/interface';
+import {
+  IForgotPasswordDTO,
+  ISigninAccoutDTO,
+  IUpdatePwdDTO,
+} from '_shared/interface';
 import { DataGenerator } from '_shared/helper/data.generator';
 import { HashFactory } from '_shared/helper/hash.helper';
 import { IDBRepository } from 'database/dashboard.repository';
@@ -61,16 +65,17 @@ export class AuthService implements IAuthService {
     }
   }
 
-  async updatePassword(signedUser: User, data: IUpdatePwdDTO): Promise<boolean> {
+  async updatePassword(
+    signedUser: User,
+    data: IUpdatePwdDTO,
+  ): Promise<boolean> {
     try {
       const { oldPassword, newPassword } = data;
       const user = await this.search({ id: signedUser.id });
       if (user) {
-        if (await HashFactory.isRightPwd(oldPassword, user.password!)) {
+        if (await HashFactory.isRightPwd(oldPassword, user.password)) {
           user.password = await HashFactory.hashPwd(newPassword);
-          return await this.dataRepository.users
-            .save(user)
-            .then(() => true);
+          return await this.dataRepository.users.save(user).then(() => true);
         }
         throw new UnauthorizedException();
       }
@@ -88,9 +93,9 @@ export class AuthService implements IAuthService {
       if (user) {
         user.code = DataGenerator.randomNumber();
         // TODO: Send notification
-        return await this.dataRepository.users
+        return (await this.dataRepository.users
           .update(user.id, user)
-          .then(() => user.code) as any;
+          .then(() => user.code)) as any;
       }
       throw new NotFoundException('User not found');
     } catch (error) {
@@ -106,9 +111,7 @@ export class AuthService implements IAuthService {
       if (user && otpCode && user?.code === otpCode) {
         user.code = null as any;
         user.password = await HashFactory.hashPwd(password);
-        return await this.dataRepository.users
-          .save(user)
-          .then(() => true);
+        return await this.dataRepository.users.save(user).then(() => true);
       }
       return false;
     } catch (error) {
@@ -128,7 +131,7 @@ export class AuthService implements IAuthService {
 
   async search(data: Partial<User>): Promise<User> {
     try {
-      const { email, phone, isActivated, id} = data;
+      const { email, phone, isActivated, id } = data;
       let options = <Partial<User>>{};
       if (id) options.id = id;
       if (isActivated) options.isActivated = isActivated;

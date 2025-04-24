@@ -12,7 +12,6 @@ import { CustomValidationPipe } from './_shared/pipe/custom-validator.pipe';
 import { UserModule } from 'user/user.module';
 import { SeedsModule } from './_seeder/seeds.module';
 
-
 @Module({
   imports: [UserModule],
   controllers: [AppController],
@@ -28,7 +27,7 @@ export class IAppModule {}
       isGlobal: true,
     }),
     WinstonModule.forRoot({
-      format: winston.format.combine( 
+      format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.json(),
       ),

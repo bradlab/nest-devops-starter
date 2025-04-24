@@ -10,6 +10,8 @@ export abstract class HashFactory {
   }
 
   static async isRightPwd(password: string, pass: string): Promise<boolean> {
-    return password && pass && (await bcrypt.compare(password, pass)) ? true : false;
+    return password && pass && (await bcrypt.compare(password, pass))
+      ? true
+      : false;
   }
 }

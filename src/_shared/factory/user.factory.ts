@@ -1,8 +1,7 @@
-import { DataHelper } from "_shared/helper/data.helper";
-import { HashFactory } from "_shared/helper/hash.helper";
-import { User } from "database/model/user.entity";
-import { IRegisterUserDTO, IUpdateUserDTO } from "user/user.service.interface";
-
+import { DataHelper } from '_shared/helper/data.helper';
+import { HashFactory } from '_shared/helper/hash.helper';
+import { User } from 'database/model/user.entity';
+import { IRegisterUserDTO, IUpdateUserDTO } from 'user/user.service.interface';
 
 export abstract class UserFactory {
   static async create(data: IRegisterUserDTO): Promise<User> {
@@ -40,7 +39,7 @@ export abstract class UserFactory {
         lastname: user.lastname,
         fullname: user.fullname,
         address: user.address,
-        avatar: DataHelper.getFileLink(user.avatar!),
+        avatar: DataHelper.getFileLink(user.avatar),
         sex: user.sex,
         isActivated: user.isActivated,
         createdAt: user.createdAt,

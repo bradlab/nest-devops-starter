@@ -18,8 +18,8 @@ describe('UserService', () => {
   const phone = faker.phone.number({ style: 'international' });
 
   const data = <IRegisterUserDTO>{
-    ...USER_DATA, 
-    password: faker.string.alphanumeric(8) 
+    ...USER_DATA,
+    password: faker.string.alphanumeric(8),
   };
 
   beforeAll(async () => {
@@ -38,8 +38,7 @@ describe('UserService', () => {
       ],
     }).compile();
     service = await moduleRef.resolve<IUserService>(IUserService);
-    authService =
-      await moduleRef.resolve<IAuthService>(IAuthService);
+    authService = await moduleRef.resolve<IAuthService>(IAuthService);
     repository = await moduleRef.resolve<IDBRepository>(IDBRepository);
   });
 
@@ -86,9 +85,7 @@ describe('UserService', () => {
           TestGlobalConfig.mockRepositoryResponse(data),
         );
       const user = await service.fetchOne(id);
-      expect(repository.users.findOne).toHaveBeenCalledWith(
-        expect.any(Object),
-      );
+      expect(repository.users.findOne).toHaveBeenCalledWith(expect.any(Object));
       expect(user).toBeFalsy();
     });
 
@@ -108,9 +105,7 @@ describe('UserService', () => {
       await service.add(data);
       expect(authService.search).toHaveBeenCalledWith({ email: data.email });
       expect(authService.search).toHaveBeenCalledWith({ phone: data.phone });
-      expect(repository.users.save).toHaveBeenCalledWith(
-        expect.any(Object),
-      );
+      expect(repository.users.save).toHaveBeenCalledWith(expect.any(Object));
     });
 
     it('Should expect correct data', async () => {

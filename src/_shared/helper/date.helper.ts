@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as moment from 'moment';
 import { PeriodUnitEnum } from '../enum';
 
@@ -36,7 +35,8 @@ function fDate(date: Date): string {
 function generateRandomDate(from: string, to: string): Date {
   const start = new Date(from);
   const end = new Date(to);
-  const milliseconds = Math.random() * (end.getTime() - start.getTime()) + start.getTime();
+  const milliseconds =
+    Math.random() * (end.getTime() - start.getTime()) + start.getTime();
   return new Date(milliseconds);
 }
 
@@ -192,7 +192,7 @@ function filterObject<T>(obj: T): {
   [P in keyof T as Exclude<P, undefined | null>]: T[P];
 } {
   return Object.fromEntries(
-    Object.entries(obj!).filter(
+    Object.entries(obj as any).filter(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([key, value]) => value !== null && value !== undefined,
     ),
@@ -211,5 +211,5 @@ export {
   setPrevOrNextDate,
   getPeriodDates,
   fDate,
-  generateRandomDate
+  generateRandomDate,
 };

@@ -1,4 +1,9 @@
-import { IForgotPasswordDTO, ISigninAccoutDTO, IUpdatePwdDTO, IBasicPersonnalInfoDTO } from '_shared/interface';
+import {
+  IForgotPasswordDTO,
+  ISigninAccoutDTO,
+  IUpdatePwdDTO,
+  IBasicPersonnalInfoDTO,
+} from '_shared/interface';
 import { User } from 'database/model/user.entity';
 
 export interface ICreateUserDTO extends IBasicPersonnalInfoDTO {

@@ -19,7 +19,12 @@ import {
 } from '@nestjs/swagger';
 
 import { IAuthService } from './auth.service.interface';
-import { SigninAccoutDTO, ForgotPasswordDTO, ResetPasswordDTO, UpdatePwdDTO } from '_shared/dto/auth.dto';
+import {
+  SigninAccoutDTO,
+  ForgotPasswordDTO,
+  ResetPasswordDTO,
+  UpdatePwdDTO,
+} from '_shared/dto/auth.dto';
 import { UserGuard } from '_shared/guard/auth.guard';
 import { SignedUser, User } from 'database/model/user.entity';
 import { UserFactory } from '_shared/factory/user.factory';

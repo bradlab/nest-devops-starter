@@ -16,8 +16,10 @@ describe('AuthController', () => {
       imports: [JwtModule],
       providers: [
         { provide: IAuthService, useClass: AuthService },
-        {provide: IDBRepository, useClass:jest.fn(() => TestGlobalConfig.mockDataService)}
-        
+        {
+          provide: IDBRepository,
+          useClass: jest.fn(() => TestGlobalConfig.mockDataService),
+        },
       ],
     }).compile();
 

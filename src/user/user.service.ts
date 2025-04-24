@@ -5,7 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { IUserService, IUpdateUserDTO, IRegisterUserDTO } from './user.service.interface';
+import {
+  IUserService,
+  IUpdateUserDTO,
+  IRegisterUserDTO,
+} from './user.service.interface';
 import { UserFactory } from '../_shared/factory/user.factory';
 import { IAuthService } from 'auth/auth.service.interface';
 import { IDBRepository } from 'database/dashboard.repository';
@@ -20,7 +24,6 @@ export class UserService implements IUserService {
     private authService: IAuthService,
   ) {}
 
-
   async fetchAll(): Promise<User[]> {
     return await this.dashboardRepository.users.find({
       order: { createdAt: 'DESC' },
@@ -28,9 +31,9 @@ export class UserService implements IUserService {
   }
 
   async fetchOne(id: string): Promise<User> {
-    return await this.dashboardRepository.users.findOne({
+    return (await this.dashboardRepository.users.findOne({
       where: { id },
-    }) as User;
+    })) as User;
   }
 
   async search(param: Partial<User>): Promise<User> {
@@ -76,7 +79,8 @@ export class UserService implements IUserService {
 
   async setState(ids: string[]): Promise<boolean> {
     try {
-      const users = ids && (await this.dashboardRepository.users.findBy({id: In(ids)}));
+      const users =
+        ids && (await this.dashboardRepository.users.findBy({ id: In(ids) }));
       if (users?.length > 0) {
         users.map((user) => {
           user.isActivated = !user.isActivated;

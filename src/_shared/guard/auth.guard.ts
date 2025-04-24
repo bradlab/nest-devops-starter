@@ -13,8 +13,6 @@ import { User } from 'database/model/user.entity';
 import { Request } from 'express';
 import { IAuthService } from '../../auth/auth.service.interface';
 
-
-
 export const _extractTokenFromHeader = (
   request: Request,
 ): string | undefined => {
@@ -56,7 +54,10 @@ export class UserGuard implements CanActivate {
       }
       throw new UnauthorizedException();
     } catch (error) {
-      this.logger.error(error.message, 'ERROR::UserGuard -> status ' + error.status)
+      this.logger.error(
+        error.message,
+        'ERROR::UserGuard -> status ' + error.status,
+      );
       if (error.status === 401) {
         throw error;
       }
@@ -65,7 +66,7 @@ export class UserGuard implements CanActivate {
   }
 
   private async _getPayload(token: string): Promise<IJwtPayload> {
-    const {iat, exp, ...rest} = await this.jwtService.verifyAsync(token, {
+    const { iat, exp, ...rest } = await this.jwtService.verifyAsync(token, {
       secret: process.env.JWT_SECRET,
       ignoreExpiration: process.env.NODE_ENV === 'prod' ? false : true,
     });

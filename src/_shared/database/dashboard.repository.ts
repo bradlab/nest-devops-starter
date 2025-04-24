@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserEntity } from './model/user.entity';
 
-
 export abstract class IDBRepository {
   users: Repository<User>;
 }
