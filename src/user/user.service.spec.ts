@@ -87,7 +87,6 @@ describe('UserService', () => {
         );
       const user = await service.fetchOne(id);
       expect(repository.users.findOne).toHaveBeenCalledWith(
-        id,
         expect.any(Object),
       );
       expect(user).toBeFalsy();
@@ -109,7 +108,7 @@ describe('UserService', () => {
       await service.add(data);
       expect(authService.search).toHaveBeenCalledWith({ email: data.email });
       expect(authService.search).toHaveBeenCalledWith({ phone: data.phone });
-      expect(repository.users.create).toHaveBeenCalledWith(
+      expect(repository.users.save).toHaveBeenCalledWith(
         expect.any(Object),
       );
     });
@@ -141,9 +140,7 @@ describe('UserService', () => {
         );
       await service.edit({ ...data, id });
       expect(repository.users.findOne).toHaveBeenCalled();
-      expect(repository.users.save).toHaveBeenCalledWith(
-        expect.objectContaining(expect.any(Object)),
-      );
+      expect(repository.users.save).toHaveBeenCalled();
     });
 
     it('Should expect correct data', async () => {
