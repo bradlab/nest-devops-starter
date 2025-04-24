@@ -9,12 +9,17 @@ stages:
 # 🌍 Global environment variables
 variables:
   NODE_ENV: test
-  DB_HOST: db
+  DB_HOST: localhost
   DB_PORT: 5432
   DB_USERNAME: $DB_USERNAME
   DB_PASSWORD: $DB_PASSWORD
   DB_NAME: $DB_NAME
   JWT_SECRET: $JWT_SECRET
+
+# Cache pour accélérer les builds suivants en sauvegardant les dépendances.
+cache:
+  paths:
+    - node_modules/
 
 # 🐳 Base Docker image for each job
 image: node:22
