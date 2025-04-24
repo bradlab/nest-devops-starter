@@ -1,0 +1,80 @@
+# Define the pipeline stages
+stages:
+  - install
+  - lint
+  - test
+  - build
+  - deploy
+
+# 🌍 Global environment variables
+variables:
+  NODE_ENV: test
+  DB_HOST: db
+  DB_PORT: 5432
+  DB_USERNAME: $DB_USERNAME
+  DB_PASSWORD: $DB_PASSWORD
+  DB_NAME: $DB_NAME
+  JWT_SECRET: $JWT_SECRET
+
+# 🐳 Base Docker image for each job
+image: node:22
+
+# 🧱 PostgreSQL service setup
+services:
+  - name: postgres:17
+    alias: db
+    command: ["postgres"]
+    variables:
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USERNAME
+      POSTGRES_PASSWORD: $DB_PASSWORD
+
+# 📦 Installation step
+install:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+
+# 🧹 Lint step
+lint:
+  stage: lint
+  script:
+    - npm run lint
+
+# 🧪 Test step (with migrations)
+test:
+  stage: test
+  script:
+    - echo "Waiting for the database to be ready..."
+    - sleep 10
+    # - echo "🏗️ Building the project before migration"
+    # - npm run build
+    # - echo "Running TypeORM migrations"
+    # - npx typeorm migration:run
+    - echo "Running unit tests"
+    - npm run test
+
+# 🛠️ Build step
+build:
+  stage: build
+  script:
+    - npm run build
+
+# 🚀 Deployment to staging (triggered on develop branch)
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploying to staging environment..."
+  only:
+    - develop
+
+# 🚀 Deployment to production (triggered on main branch)
+deploy_production:
+  stage: deploy
+  script:
+    - echo "Deploying to production environment..."
+  only:
+    - main
