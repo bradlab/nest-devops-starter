@@ -4,7 +4,7 @@ export abstract class DataHelper {
   } {
     if (!DataHelper.isEmpty(obj)) {
       return Object.fromEntries(
-        Object.entries(obj).filter(
+        Object.entries(obj as any).filter(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ([key, value]) => value !== null && value !== undefined,
         ),

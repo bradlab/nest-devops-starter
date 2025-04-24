@@ -192,7 +192,7 @@ function filterObject<T>(obj: T): {
   [P in keyof T as Exclude<P, undefined | null>]: T[P];
 } {
   return Object.fromEntries(
-    Object.entries(obj).filter(
+    Object.entries(obj as any).filter(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([key, value]) => value !== null && value !== undefined,
     ),
