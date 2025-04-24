@@ -16,13 +16,13 @@ variables:
   DB_NAME: $DB_NAME
   JWT_SECRET: $JWT_SECRET
 
+# 🐳 Base Docker image for each job
+image: node:22
+
 # Cache pour accélérer les builds suivants en sauvegardant les dépendances.
 cache:
   paths:
     - node_modules/
-
-# 🐳 Base Docker image for each job
-image: node:22
 
 # 🧱 PostgreSQL service setup
 services:
