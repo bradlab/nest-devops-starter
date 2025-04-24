@@ -7,12 +7,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import {
-  IAuthService,
-  IRegisterStaffDTO,
-} from './auth.service.interface';
+import { IAuthService } from './auth.service.interface';
 import { IResetPasswordDTO } from './auth.service.interface';
-import { ISignedStaffDTO } from './auth.service.interface';
+import { ISignedUserDTO } from './auth.service.interface';
 import { User } from 'database/model/user.entity';
 import { IForgotPasswordDTO, ISigninAccoutDTO, IUpdatePwdDTO } from '_shared/interface';
 import { DataGenerator } from '_shared/helper/data.generator';
@@ -27,7 +24,7 @@ export class AuthService implements IAuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signin(data: ISigninAccoutDTO): Promise<ISignedStaffDTO> {
+  async signin(data: ISigninAccoutDTO): Promise<ISignedUserDTO> {
     try {
       const { email, phone } = data;
       const user = await this._validateUser(data);
