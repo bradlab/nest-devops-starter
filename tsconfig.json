@@ -22,7 +22,9 @@
       "database": ["./src/_shared/database"],
       "database/*": ["./src/_shared/database/*"],
       "_shared": ["./src/_shared"],
-      "_shared/*": ["./src/_shared/*"]
+      "_shared/*": ["./src/_shared/*"],
+      "auth/*": ["./src/auth/*"],
+      "user/*": ["./src/user/*"]
     }
   }
 }

@@ -1,9 +1,11 @@
 import { DataHelper } from "_shared/helper/data.helper";
+import { HashFactory } from "_shared/helper/hash.helper";
 import { User } from "database/model/user.entity";
+import { IRegisterUserDTO, IUpdateUserDTO } from "user/user.service.interface";
 
 
 export abstract class UserFactory {
-  /* static async create(data: IRegisterUserDTO): Promise<User> {
+  static async create(data: IRegisterUserDTO): Promise<User> {
     const user = new User();
     user.email = data.email;
     user.phone = data.phone;
@@ -16,9 +18,9 @@ export abstract class UserFactory {
     user.sex = data.sex;
     user.password = await HashFactory.hashPwd(data.password);
     return user;
-  } */
+  }
 
-  /* static update(user: User, data: IUpdateUserDTO, all = false): User {
+  static update(user: User, data: IUpdateUserDTO): User {
     user.firstname = data.firstname ?? user.firstname;
     user.lastname = data.lastname ?? user.lastname;
     user.address = data.address ?? user.address;
@@ -26,7 +28,7 @@ export abstract class UserFactory {
     user.sex = data.sex ?? user.sex;
 
     return user;
-  } */
+  }
 
   static getUser(user: User): Partial<User> {
     if (user) {

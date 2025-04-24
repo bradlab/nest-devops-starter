@@ -1,18 +1,13 @@
 import {
-  ConflictException,
   Injectable,
-  InternalServerErrorException,
   Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import {
-  IAuthService,
-  IRegisterStaffDTO,
-} from './auth.service.interface';
+import { IAuthService } from './auth.service.interface';
 import { IResetPasswordDTO } from './auth.service.interface';
-import { ISignedStaffDTO } from './auth.service.interface';
+import { ISignedUserDTO } from './auth.service.interface';
 import { User } from 'database/model/user.entity';
 import { IForgotPasswordDTO, ISigninAccoutDTO, IUpdatePwdDTO } from '_shared/interface';
 import { DataGenerator } from '_shared/helper/data.generator';
@@ -27,15 +22,17 @@ export class AuthService implements IAuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signin(data: ISigninAccoutDTO): Promise<ISignedStaffDTO> {
+  async signin(data: ISigninAccoutDTO): Promise<ISignedUserDTO> {
     try {
       const { email, phone } = data;
-      const user = await this._validateUser(data);
-      if (user) {
-        return {
-          accessToken: this.jwtService.sign({ email, phone, id: user.id }),
-          user,
-        };
+      if (email || phone) {
+        const user = await this._validateUser(data);
+        if (user) {
+          return {
+            accessToken: this.jwtService.sign({ email, phone, id: user.id }),
+            user,
+          };
+        }
       }
       throw new UnauthorizedException();
     } catch (error) {
@@ -132,13 +129,13 @@ export class AuthService implements IAuthService {
   async search(data: Partial<User>): Promise<User> {
     try {
       const { email, phone, isActivated, id} = data;
-      let options = {};
-      if (id) options['id'] = id;
-      if (isActivated) options['isActivated'] = isActivated;
+      let options = <Partial<User>>{};
+      if (id) options.id = id;
+      if (isActivated) options.isActivated = isActivated;
       if (phone) {
-        options['phone'] = phone;
+        options.phone = phone;
       } else if (email) {
-        options['email'] = email;
+        options.email = email;
       } else {
         options = { ...data };
       }

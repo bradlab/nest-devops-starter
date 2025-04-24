@@ -12,6 +12,8 @@
     "^test/(.*)$": "<rootDir>/../test/$1",
     "^_shared/(.*)$": "<rootDir>/../src/_shared/$1",
     "^database/(.*)$": "<rootDir>/../src/_shared/database/$1",
-    "^config/(.*)$": "<rootDir>/../src/_shared/config/$1"
+    "^config/(.*)$": "<rootDir>/../src/_shared/config/$1",
+    "^auth/(.*)$": "<rootDir>/../src/auth/$1",
+    "^user/(.*)$": "<rootDir>/../src/user/$1"
   }
 }
