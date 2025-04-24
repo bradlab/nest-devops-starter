@@ -20,9 +20,9 @@ variables:
 image: node:22
 
 # Cache pour accélérer les builds suivants en sauvegardant les dépendances.
-cache:
-  paths:
-    - node_modules/
+# cache:
+#   paths:
+#     - node_modules/
 
 # 🧱 PostgreSQL service setup
 services:
