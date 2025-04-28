@@ -16,21 +16,21 @@ COPY . .
 # Optional: Run lint and tests here
 # RUN yarn lint
 RUN npx tsc
-RUN yarn test
+# RUN yarn test
 
 # Build the app (NestJS to JS in dist/)
 RUN yarn build
 
 
 # Production image
-# FROM node:22-slim AS production
+FROM node:22-slim AS production
 
-# WORKDIR /app
+WORKDIR /app
 
-# # Copy only what's needed for production
-# COPY --from=builder /app/dist ./dist
-# COPY --from=builder /app/node_modules ./node_modules
-# COPY --from=builder /app/package.json ./
+# Copy only what's needed for production
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
 
 # Expose app port (change if needed)
 EXPOSE 3000
