@@ -1,0 +1,101 @@
+name: Release CI
+
+# Déclencher le workflow lors de la publication d'une nouvelle version (release)
+on:
+  release:
+    types: [published] # Le workflow s'exécute quand une release est publiée
+
+jobs:
+  build-test-release:
+    runs-on: ubuntu-latest # Exécuter le job sur un environnement Ubuntu récent
+
+    services:
+      # Configuration du service PostgreSQL
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # Récupère le code source du dépôt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4 # Configure l'environnement Node.js
+        with:
+          node-version: '22'
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache node modules
+        uses: actions/cache@v4 # Cache les modules npm pour accélérer les builds
+        id: npm-cache # id pour référencer ce cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }} # Clé de cache basée sur OS et package-lock.json
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci # Installe les dépendances en utilisant package-lock.json
+
+      - name: Wait for PostgreSQL
+        run: |
+          # Attendre que le service PostgreSQL soit prêt.
+          # Les 'options' ci-dessus configurent une vérification de santé.
+          # Cette étape de script est une sécurité supplémentaire pour s'assurer que la DB est joignable.
+          # Dans la plupart des cas, les services GH Actions gèrent l'attente automatiquement.
+          # Vous pouvez l'adapter ou la retirer si les tests échouent de manière intermittente au démarrage.
+          echo "Waiting for PostgreSQL to be ready..."
+          for i in $(seq 1 10); do
+            nc -z localhost 5432 && break
+            sleep 1
+          done
+          echo "PostgreSQL is ready."
+
+      # Configuration des variables d'environnement pour la connexion à la base de données
+      # Assurez-vous que votre application NestJS lit la configuration de cette manière
+      - name: Set environment variables for Database
+        run: |
+          echo "DATABASE_TYPE=postgres" >> $GITHUB_ENV
+          echo "DATABASE_HOST=localhost" >> $GITHUB_ENV # L'hôte est 'localhost' car le service est lié
+          echo "DATABASE_PORT=5432" >> $GITHUB_ENV
+          echo "DATABASE_USERNAME=github_actions" >> $GITHUB_ENV
+          echo "DATABASE_PASSWORD=" >> $GITHUB_ENV # Mot de passe vide
+          echo "DATABASE_NAME=${{ github.event.repository.name }}_test" >> $GITHUB_ENV
+          # Ajoutez d'autres variables d'environnement nécessaires à votre application
+
+      # Exécuter les migrations de base de données
+    #   - name: Run TypeORM Migrations
+    #     run: npm run typeorm:run-migrations
+
+      # Exécuter les tests
+      - name: Run tests
+        run: npm run test
+        env:
+          NODE_ENV: test # Définit NODE_ENV à 'test' pour les tests
+
+      # Construit l'application NestJS
+      - name: Build application
+        run: npm run build
