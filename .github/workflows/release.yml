@@ -2,6 +2,10 @@ name: Release CI
 
 # Déclencher le workflow lors de la publication d'une nouvelle version (release)
 on:
+  push:
+    branches:
+      - main
+      - develop
   release:
     types: [published] # Le workflow s'exécute quand une release est publiée
 
@@ -87,8 +91,8 @@ jobs:
           # Ajoutez d'autres variables d'environnement nécessaires à votre application
 
       # Exécuter les migrations de base de données
-    #   - name: Run TypeORM Migrations
-    #     run: npm run typeorm:run-migrations
+      #   - name: Run TypeORM Migrations
+      #     run: npm run typeorm:run-migrations
 
       # Exécuter les tests
       - name: Run tests
