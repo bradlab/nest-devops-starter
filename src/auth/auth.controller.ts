@@ -67,7 +67,7 @@ export class AuthController {
   @Get('token.signin')
   @ApiOperation({ summary: 'Token connexion' })
   // @ApiResponse({ type: DocSignedUserDTO })
-  async signinByToken(@GetUser() user: User): Promise<Partial<User>> {
+  signinByToken(@GetUser() user: User): Partial<User> {
     return UserFactory.getUser(user);
   }
 

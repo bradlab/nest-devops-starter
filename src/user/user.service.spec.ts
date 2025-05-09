@@ -15,7 +15,6 @@ describe('UserService', () => {
   let authService: IAuthService;
 
   const id = faker.string.uuid();
-  const phone = faker.phone.number({ style: 'international' });
 
   const data = <IRegisterUserDTO>{
     ...USER_DATA,

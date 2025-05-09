@@ -62,7 +62,7 @@ describe('AuthService', () => {
         await service.signin(signinData);
       };
       void expect(mockSignin).rejects.toThrow(UnauthorizedException);
-      expect(service.search).toBeCalled();
+      expect(service.search).toHaveBeenCalled();
     });
 
     it('Should return a user object of the access token', async () => {

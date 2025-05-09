@@ -5,7 +5,6 @@ import { AuthController } from './auth.controller';
 import { IAuthService } from './auth.service.interface';
 import { DBRepositoryModule } from 'database/database.module';
 import { ConfigService } from '@nestjs/config';
-require('dotenv').config();
 
 @Module({
   imports: [

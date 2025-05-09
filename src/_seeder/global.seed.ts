@@ -8,7 +8,7 @@ export class GlobalSeed implements OnApplicationBootstrap {
   constructor(private readonly adminService: IUserService) {}
 
   async onApplicationBootstrap(): Promise<void> {
-    this.createAdmin();
+    await this.createAdmin();
   }
 
   async createAdmin() {
