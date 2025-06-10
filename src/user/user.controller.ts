@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
   UseGuards,
   UploadedFile,
   UseInterceptors,
@@ -19,14 +18,11 @@ import {
   ApiResponse,
   ApiParam,
   ApiConsumes,
-  ApiQuery,
-  ApiExcludeEndpoint,
 } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { IUserService } from './user.service.interface';
 import { RegisterUserDTO, UpdateUserDTO } from './user.input.dto';
 import { UserFactory } from '../_shared/factory/user.factory';
-import { GetUser } from '../_shared/decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BaseConfig } from 'config/base.config';
 import { UserGuard } from '_shared/guard/auth.guard';

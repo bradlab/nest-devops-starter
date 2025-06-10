@@ -48,6 +48,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+
       - name: Validate static typing
         run: npx tsc --noEmit
 
@@ -56,6 +59,19 @@ jobs:
 
       - name: Run tests
         run: npm run test
+
+      - name: Run OWASP ZAP Baseline Scan
+        run: |
+          docker run -t owasp/zap2docker-stable zap-baseline.py \
+            -t http://localhost:3000 \
+            -r zap-report.html
+      - name: Upload ZAP report
+        uses: actions/upload-artifact@v3
+        with:
+          name: zap-security-report
+          path: zap-report.html
+          
+      
 
       - name: Build the app
         run: npm run build

@@ -18,7 +18,17 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "commit": "cz",
+    "prepare": "husky init",
+    "init:hooks": "npm run prepare && npm run hook:commitmsg && npm run hook:precommit",
+    "hook:commitmsg": "npx husky add .husky/commit-msg 'npx --no -- commitlint --edit \"$1\"'",
+    "hook:precommit": "npx husky add .husky/pre-commit 'npx tsc && npm run lint && npm run test'"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "@faker-js/faker": "^9.7.0",
@@ -44,6 +54,8 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@nestjs/cli": "^11.0.0",
@@ -57,12 +69,18 @@
     "@types/multer": "^1.4.12",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
-    "eslint": "^9.18.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
+    "eslint-plugin-security": "^3.0.1",
     "globals": "^15.14.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.3",
     "semantic-release": "^24.2.3",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",

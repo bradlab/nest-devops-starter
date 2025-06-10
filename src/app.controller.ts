@@ -19,10 +19,10 @@ export class AppController {
     description: 'Télécharger un fichier à partir de son nom',
   })
   @Get('files/:file')
-  async getFile(
+  getFile(
     @Param('file') name: string,
     @Res() res: Response,
-  ): Promise<unknown> {
+  ): unknown {
     try {
       const path = BaseConfig.getFilePath(name);
       return res.sendFile(name, { root: path });
