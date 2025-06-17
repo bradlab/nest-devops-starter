@@ -2,45 +2,44 @@
 
 This document provides a high-level overview of the architecture for the **nest-devops-starter** project. It explains the structure, key components, and DevOps practices used in this starter template.
 
-## 🔄 System Architecture Diagram (PlantUML)
+## 📊 System Architecture Diagram (Mermaid)
 
-Below is the PlantUML source for the high-level system architecture:
+```mermaid
+flowchart TD
+  subgraph External
+    client[Client / API Consumer]
+    ci[GitHub Actions CI/CD]
+  end
 
-<details>
-<summary>Click to view PlantUML source</summary>
-```plantuml
-@startuml
-!theme plain
+  subgraph Infrastructure
+    docker[Docker Container]
+    db[(Database)]
+    env[[.env / Secrets]]
+  end
 
-package "External" {
-  [Client / API Consumer]
-  [CI/CD Pipeline (GitHub Actions)]
-}
+  subgraph "Application (NestJS)"
+    app[App Module]
+    config[Config Module]
+    health[Health Module]
+    feature[Other Feature Module]
+    hc[Health Controller]
+    fc[Feature Controller]
+    fs[Feature Service]
+  end
 
-package "Infrastructure" {
-  [Docker Container]
-  [Database] <<SQL>>
-  [Secrets (.env)]
-}
-
-package "Application (NestJS)" {
-  [App Module] --> [Health Module]
-  [App Module] --> [Other Feature Module]
-  [Health Module] --> [Health Controller]
-  [Other Feature Module] --> [Feature Controller]
-  [Other Feature Module] --> [Feature Service]
-  [Config Module]
-}
-
-[Client / API Consumer] --> [Feature Controller] : HTTP Request
-[Health Controller] --> [Feature Service] : Status logic
-[Feature Service] --> [Database] : Query
-
-[CI/CD Pipeline (GitHub Actions)] --> [Docker Container] : Build & Push
-[Docker Container] --> [Application (NestJS)]
-[Application (NestJS)] --> [Secrets (.env)]
-@enduml
-</details>
+  client --> fc
+  fc --> fs
+  fs --> db
+  hc --> fs
+  app --> health
+  app --> feature
+  health --> hc
+  feature --> fc
+  feature --> fs
+  docker --> app
+  app --> env
+  ci --> docker
+```
 ---
 
 ## 📦 Stack Overview
