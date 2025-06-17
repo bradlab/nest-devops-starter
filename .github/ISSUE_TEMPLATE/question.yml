@@ -1,0 +1,15 @@
+name: Question / Discussion
+description: Ask a question or start a general discussion.
+title: "[Discussion] "
+labels: [question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question or want to discuss something? Ask here!
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What’s your question or discussion topic?
+      placeholder: I’m trying to understand how the CI/CD workflow works...
