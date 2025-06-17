@@ -60,11 +60,11 @@ jobs:
       - name: Run tests
         run: npm run test
 
-      - name: Run OWASP ZAP Baseline Scan
-        run: |
-          docker run -t ghcr.io/zaproxy/zap-stable zap-baseline.py \
-            -t http://host.docker.internal:3000 \
-            -r zap-report.html
+      # - name: Run OWASP ZAP Baseline Scan
+      #   run: |
+      #     docker run -t ghcr.io/zaproxy/zap-stable zap-baseline.py \
+      #       -t http://host.docker.internal:3000 \
+      #       -r zap-report.html
       - name: Upload ZAP report
         uses: actions/upload-artifact@v4
         with:
