@@ -1,0 +1,31 @@
+@startuml
+!theme plain
+
+package "External" {
+  [Client / API Consumer]
+  [CI/CD Pipeline (GitHub Actions)]
+}
+
+package "Infrastructure" {
+  [Docker Container]
+  [Database] <<SQL>>
+  [Secrets (.env)]
+}
+
+package "Application (NestJS)" {
+  [App Module] --> [Health Module]
+  [App Module] --> [Other Feature Module]
+  [Health Module] --> [Health Controller]
+  [Other Feature Module] --> [Feature Controller]
+  [Other Feature Module] --> [Feature Service]
+  [Config Module]
+}
+
+[Client / API Consumer] --> [Feature Controller] : HTTP Request
+[Health Controller] --> [Feature Service] : Status logic
+[Feature Service] --> [Database] : Query
+
+[CI/CD Pipeline (GitHub Actions)] --> [Docker Container] : Build & Push
+[Docker Container] --> [Application (NestJS)]
+[Application (NestJS)] --> [Secrets (.env)]
+@enduml
