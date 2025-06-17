@@ -2,6 +2,45 @@
 
 This document provides a high-level overview of the architecture for the **nest-devops-starter** project. It explains the structure, key components, and DevOps practices used in this starter template.
 
+## 🔄 System Architecture Diagram (PlantUML)
+
+Below is the PlantUML source for the high-level system architecture:
+
+<details>
+<summary>Click to view PlantUML source</summary>
+```plantuml
+@startuml
+!theme plain
+
+package "External" {
+  [Client / API Consumer]
+  [CI/CD Pipeline (GitHub Actions)]
+}
+
+package "Infrastructure" {
+  [Docker Container]
+  [Database] <<SQL>>
+  [Secrets (.env)]
+}
+
+package "Application (NestJS)" {
+  [App Module] --> [Health Module]
+  [App Module] --> [Other Feature Module]
+  [Health Module] --> [Health Controller]
+  [Other Feature Module] --> [Feature Controller]
+  [Other Feature Module] --> [Feature Service]
+  [Config Module]
+}
+
+[Client / API Consumer] --> [Feature Controller] : HTTP Request
+[Health Controller] --> [Feature Service] : Status logic
+[Feature Service] --> [Database] : Query
+
+[CI/CD Pipeline (GitHub Actions)] --> [Docker Container] : Build & Push
+[Docker Container] --> [Application (NestJS)]
+[Application (NestJS)] --> [Secrets (.env)]
+@enduml
+</details>
 ---
 
 ## 📦 Stack Overview
@@ -20,7 +59,7 @@ This document provides a high-level overview of the architecture for the **nest-
 ---
 
 ## 🧱 Project Structure
-
+```
 src/
 ├── app.module.ts          # Root NestJS module
 ├── main.ts                # App entry point
@@ -34,6 +73,8 @@ test/                      # Jest unit & e2e tests
 .env.example               # Example environment variables
 
 Each feature is encapsulated in its own module for scalability and maintainability (following the **Modular Architecture** pattern encouraged by NestJS).
+
+```
 
 ---
 
