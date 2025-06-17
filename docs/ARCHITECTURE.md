@@ -41,6 +41,30 @@ flowchart TD
   ci --> docker
 ```
 ---
+## 📊 CI/CD Diagram (Mermaid using `graph LR`)
+
+```mermaid
+graph LR
+  dev[Developer] --> github[Push / PR to GitHub]
+  github --> actions[GitHub Actions Workflow Trigger]
+
+  subgraph CI [CI Pipeline]
+    checkout[Checkout Code]
+    install[Install Dependencies]
+    lint[Run Lint and Tests]
+    dockerBuild[Build Docker Image]
+  end
+
+  actions --> checkout --> install --> lint --> dockerBuild
+
+  dockerBuild --> branchCheck{Branch: dev or main?}
+
+  branchCheck -- "dev" --> pushDev[Push Docker Image - dev tag] --> deployStaging[Deploy to Staging]
+  branchCheck -- "main" --> pushProd[Push Docker Image - prod tag] --> deployProd[Deploy to Production]
+
+  secrets[GitHub Secrets: .env, SSH keys, tokens] --> actions
+```
+---
 
 ## 📦 Stack Overview
 
