@@ -1,5 +1,3 @@
-
-````markdown
 # Contributing to nest-devops-starter
 
 Thank you for considering contributing to **nest-devops-starter**! 🎉  
@@ -27,7 +25,6 @@ This guide will help you understand how to contribute, report issues, and submit
    ```bash
    git clone https://github.com/bradlab/nest-devops-starter.git
    cd nest-devops-starter
-````
 
 3. Install dependencies:
 
@@ -127,5 +124,3 @@ You can also reach out by creating a new discussion or opening an issue.
 ---
 
 Thanks for helping us improve **nest-devops-starter**! 🚀
-
-```
